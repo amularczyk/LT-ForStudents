@@ -1,0 +1,95 @@
+Cześć,
+Nazywam się Adrian Mularczyk i dziś opowiem wam o projekcie, który ostatnio realizowaliśmy dla jednego klienta.
+
+Trochę o mnie:
+- Pracuję zawodowo już od ponad 7 lat
+- Pracę zacząłem na 3 roku studiów
+- Studiowałem we Wrocławiu, ale nie tutaj, tylko po drugiej stronie placu grunwaldzkiego, czyli na uniwersytecie
+Tyle o mnie wystarczy, wracając do tematu...
+
+--
+Przyszedł do nas klient i powiedział, że chciałby aplikację do sprzedaży kuponów na lunche.
+Firma kupuje takie kupony, rozdaje pracownikom, a oni za nie kupują sobie lunche.
+
+Naszym zadaniem było stworzenie aplikacji webowej, która umożliwi tym firmom zakup kuponów.
+
+I od razu pojawiły się pierwsze dodatkowe wymagania:
+- Klient zastanawiał się, że może w przyszłości zrobimy również aplikację mobiliną, więc musieliśmy zrobić osobno frontend i backend, aby później można było backend wykorzystać przy aplikacji mobilnej. Stworzyliśmy RESTowe API i osobny frontend.
+- Drugim wymaganiem było to, że w przyszłości mogą dojść kolejne aplikacje i najlepiej jakby użytkownikom wystarczało tylko 1 konto do zalogowania się do każdej z nich, więc potrzebowaliśmy stworzyć dodatkową sługę do Autentykacji (tzw. SSO - Single Sing On). Zastrzeżenie było takie, że ta usługa nie będzie dostęp na zewnątrz.
+
+Stworzyliśmy zatem 3 aplikacje:
+- Frontend
+- Backend
+- Identity
+
+Tworząc te aplikacji, zauważyliśmy, że niektóre części kodu dublują się w Backend i Identity, więc stworzyliśmy bibliotekę, którą nazwaliśmy Core i tam przenieśliśmy wspólny kod. Taką bibliotekę udostępnialiśmy jako wewnętrzną paczkę nugetową.
+
+Klient chciał, aby użytkownicy naszej aplikacji mieli możliwość płacenia za zamówienia kartą oraz przelewem.
+
+Płatność kartą zrealizowaliśmy poprzez integrację z wybranym przez klienta systemem płatności. Odbywało się to na zasadzie, że wysyłaliśmy specjalnie przygotowany request, a w odpowiedzi otrzymywaliśmy status płatności.
+
+Z reguły było to 
+- 'Accepted' - a więc wszyscy byli szczęśliwy, albo
+- 'Failed' - wtedy dawaliśmy użytkownikowi możliwości dokonania ponownej płatności
+- 'Pending' - zdarzało się jednak, że czasami ten status był 'Pending'. W takich sytuacjach wyświetlaliśmy użytkownikowi informację, że płantość jest przetważana, a my w osobnym wątku na backend co jakiś czas wysyłaliśmy do systemu płantości dodatkowy request, aby dowiedzieć się czy płatność już się zakończyła.
+
+Jeśli chodzi o realizację przelewów, to odbywało się to w dwóch krokach:
+- jednym było wyświetlenie użytkownkowi informacji do przelewu.
+- drugim była integracja z systemem, który informował nas o tym, że pieniądze trafiły na nasze konto - w tej sytuacji nie my wołaliśmy zewnętrzny serwis, tylko zewnętrzny serwis wołał nas gdy wykrył przelew i musieliśmy mieć do tego specjalnie przygotowany endpoint.
+
+Do tej pory cała komunikacja odbywała się na zasadzie, że wysyłamy request i czekamy na odpowiedź.
+Jedyny problem jaki mieliśmy, był taki, że możliwe było złożenie zamówienia wraz z utworzeniem konta.
+Aplikacje Backend i Identity miały osobne bazy. W takiej sytuacji nie da się zapewnić transakcyjności. Musieliśmy poradzić sobie z sytuacją, gdy dodawanie nowego użytkownika w Identity zakończy się sukcesem, a dodanie zamówienia w Backend się nie powiedzie.
+Uznaliśmy, że nie chcemy robić żadnych rollback'ów, ponieważ użytkownik prawdopodobnie i tak będzie chciał założyć konto z danym loginem i hasłem. W związku z tym w takiej sytuacji zwracaliśmy informację o błędzie dodawania zamówienia, ale również zwracaliśmy 'token' dla użytkownika, aby został on zalogowany na Frontend. Zalogowany użytkownik mógł ponownie wykońać request dodania zamówienia, ale tym razem już bez dodawania nowego użytkownika w Identity.
+
+--
+To wszystko działało, ale... klient miał kolejne plany.
+Wiedział on, że w obecnych czasach nie każdemu chce się nosić kupony na lunche i dobrze byłoby, jakby one były dostępne w jakiś aplikacji. Użytkownicy mieliby w niej mieć możliwość wyboru restauracji, wyboru jednego ze swoich kuponów i możliwość zapłacenia nim za lunch.
+
+To spowodowało, że wymagana okazała się również druga aplikacja - dla restauracji, aby takie płatności wirtualnymi kuponami mogła ona przyjąć.
+
+Założenie jeśli chodzi o frontend i backend obu aplikacji były takie same jak poprzednio - miały to być osobne serwisy, aby można było w przyszłości stworzyć aplikację mobilną.
+
+Identity już mieliśmy, więc mogliśmy po prostu się do niego podłączyć.
+Mogliśmy też wykorzystać naszą bibliotekę Core, co znacząco ułatwiło nam zadanie.
+Okazało się jednak, że pojawiają się innego typu rzeczy, które dublują się pomiędzy naszą pierwszą aplikacją Backend, a nowymi aplikacjami Backend. Takim czymś było na przykład wysyłanie e-maili. W związku z tym postanowiliśmy stworzyć kolejny serwis dostępny tylko wewnątrz sieci, który zawierałby w sobie powtarzalną funckjonalość - nazwaliśmy go Common.
+
+Nasza arhcitektura wyglądała teraz następująco:
+Company:
+Frontend -> Backend -> Identity (or Common) + systemy płatności
+Employee:
+Frontend -> Backend -> Identity (or Common)
+Restaurant:
+Frontend -> Backend -> Identity (or Common)
+
+Teraz jeszcze musieliśmy te aplikacje ze sobą połączyć.
+Company Backend -> Employee Backend - aby firma mogła przekazać wirtualne kupony swoim pracownikom
+Employee Backend - > Restaurant Backend - aby pracownik mógł zapłacić za swój lunch
+Restaurant Backend -> Employee Backend - aby restauracja mogła przyjąć lub odrzucić płatność za lunch
+
+Tu komunikacja się trochę skomplikowała. Gdy pracownik chciał zapłacić za lunch nie mieliśmy pewności, że restauracja tę płatność zaakceptuje, nie mogliśmy więc czekać w nieskończoność na odpowiedź. Komunikacja między tymi aplikacjami została zrobiona na zasadzie fire-and-forgot.
+
+Pracownik płacą za swój lunch wysyłał request do restauracji i dostawał odpowiedź, że oczekuje na potwierdzenie.
+Restauracja za pomocą SignalR otrzymywała powiadomienie, że ktoś chce zapłacić za swój lunch i mogła tą płatność przyjąć, lub odrzucić. Miała na to 30 sekund, po tym czasie płatność był automatycznie odrzucana. Następnie request ze statusem płatność był wysyłany do Pracownika również na zasadzie fire-and-forgot.
+Po otrzymaniu takiego żądania odpowiednio aktualizowaliśmy status płatności i jeśli była to płatność odrzucona, to zwracaliśmy mu kupon.
+
+--
+W między czasie pojawiły się aplikacje mobilne dla Employee i Restaurant, więc początkowe założenia klienta o rozdzieleniu warstwy front-end i back-end się przydały.
+
+Ale to było nie wszystko. Świat szedł do przodu, a klient nie chciał pozostać w tyle. Kolejnym krokiem była zamiana wirtualnych kuponów na wirtualne portfele. Klient chciał, aby można był z nich korzystać na dwa sposoby - jeden to mobilnie poprzez telefon, a drugi sposób to poprzez kartę płatności.
+
+Postanowiliśmy rozbudować naszą architekturę o dwa kolejne serwisy.
+- Account - jednym z nich był serwis do zarządzania środkami na wirtualnym koncie
+- Card - drugim był serwis do integracji z systemem, który dostarczał nam karty typu pre-paid.
+
+Z serwisem Card łączyła się tylko aplikacja Account w celu synchronizacji stanu konta i karty.
+Aplikacja Company łączyła się z serwisem Account, aby zasilić swoje konto, a następnie przesłać środki na konta pracowników.
+Aplikacja Employee łączyła się z serwisem Account, z jednej strony aby pracownik mógł zapłacić za lunch, z drugiej, aby mógł poprosić pracodawcę o więcej środków.
+
+Tu pojawiło się trochę więcej problemów. Po pierwsze musieliśmy zagwarantować, że gdy pracodawca przekazywał środki swoim pracownikom, to nie przekroczy swojego salda. Z pomocą przyszły nam 'kolejki'.
+Gdy pracowaca wysyłał request o przekazanie środków pracownikowi, ten request trafiał do kolejki. Requesty z kolejki były kolejno obsługiwane.
+Tak samo wyglądała sytuacja, gdy to pracownik prosił o więcej środków.
+Płatność za lunch odbywała się w zasadzie tak samo jak wcześniej, z tą różnicą, że teraz po zaakceptowaniu płatności dodatkowo w osobnym wątku wysyłaliśmy request do Card w celu synchronizacji środków.
+Płatności przy użyciu karty były sczytywane do Account raz dziennie - przyjeliśmy założenie, że szansa na to, że ktoś będzie jadł lunch dwa razy dziennie jest niewielka.
+
+I to by było na tyle.
