@@ -1,0 +1,383 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Boadilla}
+  \usecolortheme{dove}
+  \setbeamertemplate{page number in head/foot}{}
+}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[normalem]{ulem}
+\graphicspath{ {images/} }
+
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{{\texttt{#1}}}
+%\colorbox{codegray}
+
+\title[]
+{\Huge{Historia pewnego systemu}}
+
+\author[Adrian Mularczyk]{\Large{Adrian Mularczyk}}
+
+\institute[PGS Software]
+{
+\small{PGS Software}
+}
+
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage 
+\end{frame}
+
+\begin{frame}{}
+	\begin{tabular}{ p{4.4cm} p{6cm} }
+		\begin{minipage}{.4\textwidth}
+			\begin{center}
+  				\includegraphics[height=4cm]{ja.png}
+			\end{center}
+   		 \end{minipage}
+   		 &
+		\begin{minipage}{.7\textwidth}
+  					\Huge{Adrian Mularczyk} \newline \newline
+					\Large{7 lad doświadczenia} \newline
+					\Large{3 rok studiów}\newline
+					\Large{Uniwersytet Wrocławski}
+   		 \end{minipage}
+	\end{tabular}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{Tak to się zaczęło...}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{<<Voucher>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Aplikacja webowa}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Aplikacja Mobilna
+			\item SSO
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{SSO}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<Wyjaśnić czym jest SSO>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}
+			\item Frontend
+			\item Backend (API)
+			\item Identity (Autentykacja)
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Wspólny code -> Core}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Nuget}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<Wyjaśnić czym jest nuget>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<płatności: karta i przelew>> tekst czy obrazek?}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<wysłanie requestu -> status w odpowiedzi>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Accepted
+			\item Failed
+			\item Pending
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Faktura
+			\item Integracja z systemem zewnętrznym
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Prosta komunikacja}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Problemy}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{Klient miał kolejne plany...}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<aplikacją płacimy za lunch>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<restauracja akceptuje płatność>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}
+			\item Frontend
+			\item Backend (API)
+			\item Identity (Autentykacja)
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Identity
+			\item Core
+			\item Common
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<architektura dla firmy>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<architektura nowych>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Company -> Employee
+			\item Employee -> Restaurant
+			\item Restaurant -> Employee
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<architektura połączona>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Problemy}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Fire-and-forget}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{Large}
+		\begin{itemize}[<+->]
+			\item Pracownik płaci za lunch
+			\item Pracownik oczekuje na akceptację
+			\item Restauracja akceptuje płatność
+			\item Restauracja powiadamia Pracownika
+			\item Aktualizacja statusu zamówienia
+		\end{itemize}
+	\end{Large}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{SignalR}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<Wyjaśnić czym jest SignalR>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<mobile>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{To jeszcze nie koniec opowieści...}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<wirtualne portfele>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Account
+			\item Card
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Account -> Card
+			\item Company -> Account
+			\item Employee -> Account
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Problemy}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Transakcyjność}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{Queue}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\huge{<<Wyjaśnić czym są Queue>>}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Company -> Account -> Card
+			\item Employee -> Account -> Card
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Employee -> Restaurant -> Account -> Card
+			\item Card -> Account
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{To póki co koniec opowieści}
+	\end{center}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Aplikacje się rozbudowują
+			\item Różne rodzaje komunikacji
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Fire-and-wait
+			\item Fire-and-forget
+			\item SignalR
+			\item Queue
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+  		\includegraphics[height=4cm]{ok.png} \\
+		\Huge{Dziękuję!}
+	\end{center}
+\end{frame}
+
+
+\end{document}
