@@ -13,6 +13,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage[normalem]{ulem}
+\usepackage{array}
 \graphicspath{ {images/} }
 
 \definecolor{codegray}{gray}{0.9}
@@ -20,7 +21,7 @@
 %\colorbox{codegray}
 
 \title[]
-{\Huge{Historia pewnego systemu}}
+{\Huge{Komunikacja komponentów w aplikacji webowej}}
 
 \author[Adrian Mularczyk]{\Large{Adrian Mularczyk}}
 
@@ -41,14 +42,14 @@
 	\begin{tabular}{ p{4.4cm} p{6cm} }
 		\begin{minipage}{.4\textwidth}
 			\begin{center}
-  				\includegraphics[height=4cm]{ja.png}
+  				\includegraphics[height=5cm]{ja.jpg}
 			\end{center}
    		 \end{minipage}
    		 &
 		\begin{minipage}{.7\textwidth}
   					\Huge{Adrian Mularczyk} \newline \newline
-					\Large{7 lad doświadczenia} \newline
-					\Large{3 rok studiów}\newline
+					\Large{7 lat doświadczenia} \newline
+					\Large{praca od 3 rok studiów}\newline
 					\Large{Uniwersytet Wrocławski}
    		 \end{minipage}
 	\end{tabular}
@@ -62,38 +63,38 @@
 
 \begin{frame}{}
 	\begin{center}
-		\Huge{<<Voucher>>}
+  		\includegraphics[height=4cm]{lunch1.png}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{Aplikacja webowa}
+		\Huge{Aplikacja webowa}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Aplikacja webowa}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Aplikacja Mobilna
-			\item SSO
+			\item Single Sing-On (SSO)
 		\end{itemize}
 	\end{huge}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{SSO}
+		\Huge{Single Sing-On (SSO)}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{SSO}
 	\begin{center}
-		\huge{<<Wyjaśnić czym jest SSO>>}
+  		\includegraphics[height=5cm]{sso2.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Aplikacja webowa}
 	\begin{huge}
 		\begin{itemize}
 			\item Frontend
@@ -103,37 +104,52 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Aplikacja webowa}
 	\begin{center}
-		\huge{Wspólny code -> Core}
+		\Huge{Wspólny code -> Core}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{Nuget}
+		\Huge{Nuget}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Nuget}
 	\begin{center}
-		\huge{<<Wyjaśnić czym jest nuget>>}
+  		\includegraphics[height=4cm]{nuget1.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Nuget}
 	\begin{center}
-		\huge{<<płatności: karta i przelew>> tekst czy obrazek?}
+  		\includegraphics[height=5cm]{nuget2.jpg}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+
+\begin{frame}{Aplikacja webowa}
 	\begin{center}
-		\huge{<<wysłanie requestu -> status w odpowiedzi>>}
+		\begin{tabular}{ m{5cm} m{5cm} }
+  			\includegraphics[height=3cm]{card3.jpg} & \includegraphics[height=3cm]{przelew1.jpg}
+		\end{tabular}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Płatność kartą}
+	\begin{center}
+  		\includegraphics[height=3cm]{request4.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Płatność kartą}
+	\begin{center}
+		\includegraphics[height=3cm]{response1.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Płatność kartą - status}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Accepted
@@ -143,7 +159,13 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Płatność kartą - Pending}
+	\begin{center}
+		\includegraphics[height=4cm]{cykl1.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Płatność przelewem}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Faktura
@@ -152,15 +174,21 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Aplikacja webowa}
 	\begin{center}
-		\huge{Prosta komunikacja}
+		\Huge{Prosta komunikacja}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Prosta komunikacja}
 	\begin{center}
-		\huge{Problemy}
+		\includegraphics[height=3cm]{prosta_komunikacja2.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Aplikacja webowa}
+	\begin{center}
+		\Huge{Problemy}
 	\end{center}
 \end{frame}
 
@@ -172,13 +200,13 @@
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<aplikacją płacimy za lunch>>}
+		\Huge{<<aplikacją płacimy za lunch>>}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<restauracja akceptuje płatność>>}
+		\Huge{<<restauracja akceptuje płatność>>}
 	\end{center}
 \end{frame}
 
@@ -204,13 +232,13 @@
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<architektura dla firmy>>}
+		\Huge{<<architektura dla firmy>>}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<architektura nowych>>}
+		\Huge{<<architektura nowych>>}
 	\end{center}
 \end{frame}
 
@@ -226,19 +254,19 @@
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<architektura połączona>>}
+		\Huge{<<architektura połączona>>}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{Problemy}
+		\Huge{Problemy}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{Fire-and-forget}
+		\Huge{Fire-and-forget}
 	\end{center}
 \end{frame}
 
@@ -256,19 +284,19 @@
 
 \begin{frame}{}
 	\begin{center}
-		\huge{SignalR}
+		\Huge{SignalR}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<Wyjaśnić czym jest SignalR>>}
+		\Huge{<<Wyjaśnić czym jest SignalR>>}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<mobile>>}
+		\Huge{<<mobile>>}
 	\end{center}
 \end{frame}
 
@@ -280,7 +308,7 @@
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<wirtualne portfele>>}
+		\Huge{<<wirtualne portfele>>}
 	\end{center}
 \end{frame}
 
@@ -305,25 +333,25 @@
 
 \begin{frame}{}
 	\begin{center}
-		\huge{Problemy}
+		\Huge{Problemy}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{Transakcyjność}
+		\Huge{Transakcyjność}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{Queue}
+		\Huge{Queue}
 	\end{center}
 \end{frame}
 
 \begin{frame}{}
 	\begin{center}
-		\huge{<<Wyjaśnić czym są Queue>>}
+		\Huge{<<Wyjaśnić czym są Queue>>}
 	\end{center}
 \end{frame}
 

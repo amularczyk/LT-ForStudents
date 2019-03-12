@@ -35,13 +35,16 @@ Płatność kartą zrealizowaliśmy poprzez integrację z wybranym przez klienta
 Z reguły było to 
 - 'Accepted' - a więc wszyscy byli szczęśliwy, albo
 - 'Failed' - wtedy dawaliśmy użytkownikowi możliwości dokonania ponownej płatności
-- 'Pending' - zdarzało się jednak, że czasami ten status był 'Pending'. W takich sytuacjach wyświetlaliśmy użytkownikowi informację, że płatność jest przetwarzana, a my w osobnym wątku na backend co jakiś czas wysyłaliśmy do systemu płantości dodatkowy request, aby dowiedzieć się czy płatność już się zakończyła.
+- 'Pending' - zdarzało się jednak, że czasami ten status był 'Pending'.
+
+W takich sytuacjach wyświetlaliśmy użytkownikowi informację, że płatność jest przetwarzana, a my w osobnym wątku na backend co jakiś czas wysyłaliśmy do systemu płantości dodatkowy request, aby dowiedzieć się czy płatność już się zakończyła.
 
 Jeśli chodzi o realizację przelewów, to odbywało się to w dwóch krokach:
 - jednym było wyświetlanie użytkownikowi informacji do przelewu.
 - drugim była integracja z systemem, który informował nas o tym, że pieniądze trafiły na nasze konto - w tej sytuacji nie my wołaliśmy zewnętrzny serwis, tylko zewnętrzny serwis wołał nas gdy wykrył przelew i musieliśmy mieć do tego specjalnie przygotowany endpoint.
 
 Do tej pory cała komunikacja odbywała się na zasadzie, że wysyłamy request i czekamy na odpowiedź.
+
 Jedyny problem jaki mieliśmy, był taki, że możliwe było złożenie zamówienia wraz z utworzeniem konta.
 Aplikacje Backend i Identity miały osobne bazy. W takiej sytuacji nie da się zapewnić transakcyjności. Musieliśmy poradzić sobie z sytuacją, gdy dodawanie nowego użytkownika w Identity zakończy się sukcesem, a dodanie zamówienia w Backend się nie powiedzie.
 Uznaliśmy, że nie chcemy robić żadnych rollback'ów, ponieważ użytkownik prawdopodobnie i tak będzie chciał założyć konto z danym loginem i hasłem. W związku z tym w takiej sytuacji zwracaliśmy informację o błędzie dodawania zamówienia, ale również zwracaliśmy 'token' dla użytkownika, aby został on zalogowany na Frontend. Zalogowany użytkownik mógł ponownie wykonać request dodania zamówienia, ale tym razem już bez dodawania nowego użytkownika w Identity.
