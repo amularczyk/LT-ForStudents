@@ -43,7 +43,11 @@ Jeśli chodzi o realizację przelewów, to odbywało się to w dwóch krokach:
 - jednym było wyświetlanie użytkownikowi informacji do przelewu.
 - drugim była integracja z systemem, który informował nas o tym, że pieniądze trafiły na nasze konto - w tej sytuacji nie my wołaliśmy zewnętrzny serwis, tylko zewnętrzny serwis wołał nas gdy wykrył przelew i musieliśmy mieć do tego specjalnie przygotowany endpoint.
 
+<<Rozszerzyć 'integracja z systemem zewnętrznym o kilka dodatkowych slajdów, i np. email do biznesu?>>
+
 Do tej pory cała komunikacja odbywała się na zasadzie, że wysyłamy request i czekamy na odpowiedź.
+
+<<Dodatkowy slajd odnośnie problemów, aby łatwiej było to opowiedzieć>>
 
 Jedyny problem jaki mieliśmy, był taki, że możliwe było złożenie zamówienia wraz z utworzeniem konta.
 Aplikacje Backend i Identity miały osobne bazy. W takiej sytuacji nie da się zapewnić transakcyjności. Musieliśmy poradzić sobie z sytuacją, gdy dodawanie nowego użytkownika w Identity zakończy się sukcesem, a dodanie zamówienia w Backend się nie powiedzie.
@@ -58,7 +62,7 @@ To spowodowało, że wymagana okazała się również druga aplikacja - dla rest
 Założenie jeśli chodzi o frontend i backend obu aplikacji były takie same jak poprzednio - miały to być osobne serwisy, aby można było w przyszłości stworzyć aplikację mobilną.
 
 Identity już mieliśmy, więc mogliśmy po prostu się do niego podłączyć.
-Mogliśmy też wykorzystać naszą bibliotekę Core, co znacząco ułatwiło nam zadanie.
+Mogliśmy też wykorzystać naszą bibliotekę Core, co znacząco przyśpieszyło prace.
 Okazało się jednak, że pojawiają się innego typu rzeczy, które dublują się pomiędzy naszą pierwszą aplikacją Backend, a nowymi aplikacjami Backend. Takim czymś było na przykład wysyłanie e-maili. W związku z tym postanowiliśmy stworzyć kolejny serwis dostępny tylko wewnątrz sieci, który zawierałby w sobie powtarzalną funkcjonalność - nazwaliśmy go Common.
 
 Nasza architektura wyglądała teraz następująco:
