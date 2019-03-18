@@ -78,7 +78,11 @@ Company Backend -> Employee Backend - aby firma mogła przekazać wirtualne kupo
 Employee Backend - > Restaurant Backend - aby pracownik mógł zapłacić za swój lunch
 Restaurant Backend -> Employee Backend - aby restauracja mogła przyjąć lub odrzucić płatność za lunch
 
-Tu komunikacja się trochę skomplikowała. Gdy pracownik chciał zapłacić za lunch nie mieliśmy pewności, że restauracja tę płatność zaakceptuje, nie mogliśmy więc czekać w nieskończoność na odpowiedź. Komunikacja między tymi aplikacjami została zrobiona na zasadzie fire-and-forget.
+Dodając połączenia między naszymi aplikacjami ta architektura prezentowała się następująco.
+
+Doszły nowe aplikacja i pojawiły się nowe problemy.
+
+Gdy pracownik chciał zapłacić za lunch nie mieliśmy pewności, że restauracja tę płatność zaakceptuje, nie mogliśmy więc czekać w nieskończoność na odpowiedź. Komunikacja między tymi aplikacjami została zrobiona na zasadzie fire-and-forget.
 
 Czy ktoś z was wie jak działa wysyłanie żądań na zasadzie fire-and-forget?
 Chodzi tu o to...
