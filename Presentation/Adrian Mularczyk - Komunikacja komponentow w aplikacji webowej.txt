@@ -87,9 +87,11 @@ Gdy pracownik chciał zapłacić za lunch nie mieliśmy pewności, że restaurac
 Czy ktoś z was wie jak działa wysyłanie żądań na zasadzie fire-and-forget?
 Chodzi tu o to...
 
-Pracownik płacą za swój lunch wysyłał request do restauracji i dostawał odpowiedź, że oczekuje na potwierdzenie.
-Restauracja za pomocą SignalR otrzymywała powiadomienie, że ktoś chce zapłacić za swój lunch i mogła tą płatność przyjąć, lub odrzucić. Miała na to 30 sekund, po tym czasie płatność był automatycznie odrzucana. Następnie request ze statusem płatność był wysyłany do Pracownika również na zasadzie fire-and-forget.
-Po otrzymaniu takiego żądania odpowiednio zaktualizowaliśmy status płatności i jeśli była to płatność odrzucona, to zwracaliśmy mu kupon.
+1. Pracownik płacą za swój lunch wysyłał request do restauracji.
+2. Dostawał on odpowiedź, że oczekuje na akceptację.
+3. Restauracja za pomocą SignalR otrzymywała powiadomienie, że ktoś chce zapłacić za swój lunch i mogła tą płatność przyjąć, lub odrzucić. Miała na to 30 sekund, po tym czasie płatność był automatycznie odrzucana.
+4. Następnie request ze statusem płatność był wysyłany do Pracownika również na zasadzie fire-and-forget.
+5. Po otrzymaniu takiego żądania odpowiednio zaktualizowaliśmy status płatności i jeśli była to płatność odrzucona, to zwracaliśmy mu kupon.
 
 Czy ktoś wie do czego służy SignalR?
 SignalR...
@@ -97,11 +99,13 @@ SignalR...
 W międzyczasie pojawiły się aplikacje mobilne dla Employee i Restaurant, więc początkowe założenia klienta o rozdzieleniu warstwy front-end i back-end się przydały.
 
 --
-Ale to było nie wszystko. Świat szedł do przodu, a klient nie chciał pozostać w tyle. Kolejnym krokiem była zmiana wirtualnych kuponów na wirtualne portfele. Klient chciał, aby można był z nich korzystać na dwa sposoby - jeden to mobilnie poprzez telefon, a drugi sposób to poprzez kartę płatności.
+Ale to było nie wszystko. Świat szedł do przodu, a klient nie chciał pozostać w tyle. Kolejnym krokiem była zmiana wirtualnych kuponów na wirtualne portfele.
 
-Postanowiliśmy rozbudować naszą architekturę o dwa kolejne serwisy.
+Klient chciał, aby można był z nich korzystać na dwa sposoby - jeden to mobilnie poprzez telefon, a drugi sposób to poprzez kartę płatności.
+
+Postanowiliśmy rozbudować nasz system o dwa kolejne serwisy.
 - Account - jednym z nich był serwis do zarządzania środkami na wirtualnym koncie
-- Card - drugim był serwis do integracji z systemem, który dostarczał nam karty typu pre-paid.
+- Card - drugim był serwis do integracji z systemem, który dostarczał nam karty typu prepaid.
 
 Z serwisem Card łączyła się tylko aplikacja Account w celu synchronizacji stanu konta i karty.
 Aplikacja Company łączyła się z serwisem Account, aby zasilić swoje konto, a następnie przelać środki na konta pracowników.
@@ -110,6 +114,7 @@ Aplikacja Employee łączyła się z serwisem Account, z jednej strony aby praco
 Tu pojawiło się trochę więcej problemów.
 
 Po pierwsze musieliśmy zagwarantować, że gdy pracodawca przekazywał środki swoim pracownikom, to nie przekroczy swojego salda. Z pomocą przyszły nam 'kolejki'.
+
 Gdy firma wysyłał request o przekazanie środków pracownikowi, ten request trafiał do kolejki. Requesty z kolejki były kolejno obsługiwane.
 Tak samo wyglądała sytuacja, gdy to pracownik prosił o więcej środków.
 

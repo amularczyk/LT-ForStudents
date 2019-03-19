@@ -128,7 +128,6 @@
 	\end{center}
 \end{frame}
 
-
 \begin{frame}{Aplikacja webowa}
 	\begin{center}
 		\begin{tabular}{ m{5cm} m{5cm} }
@@ -180,13 +179,13 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{Aplikacja webowa}
+\begin{frame}{Komunikacja komponentów}
 	\begin{center}
-		\Huge{Prosta komunikacja}
+		\Huge{Komunikacja synchroniczna}
 	\end{center}
 \end{frame}
 
-\begin{frame}{Prosta komunikacja}
+\begin{frame}{Komunikacja synchroniczna}
 	\begin{center}
 		\includegraphics[height=3cm]{prosta_komunikacja2.png}
 	\end{center}
@@ -216,7 +215,7 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Nowe aplikacje}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Pracownik
@@ -235,7 +234,7 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Nowe aplikacje}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Identity
@@ -245,25 +244,25 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Architektura}
 	\begin{center}
 		\includegraphics[height=4cm]{architektura1.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Architektura}
 	\begin{center}
 		\includegraphics[height=7cm]{architektura2.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Architektura}
 	\begin{center}
 		\includegraphics[height=8cm]{architektura4.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Komunikacja}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Company -> Employee
@@ -273,69 +272,82 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Architektura}
 	\begin{center}
 		\includegraphics[height=8cm]{architektura3.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Nowe aplikacje}
 	\begin{center}
 		\Huge{Problemy}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Problemy}
 	\begin{center}
 		\includegraphics[height=4cm]{pay1.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Komunikacja komponentów}
 	\begin{center}
-		\Huge{Fire-and-forget}
+		\Huge{Fire-and-forget}\\
+		\huge{(komunikacja asynchroniczna)}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Fire-and-forget}
 	\begin{center}
 		\includegraphics[height=4cm]{async1.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Fire-and-forget}
 	\begin{center}
 		\includegraphics[height=6cm]{async2.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Problemy}
 	\begin{Large}
 		\begin{itemize}[<+->]
-			\item Pracownik płaci za lunch
-			\item Pracownik oczekuje na akceptację
-			\item Restauracja akceptuje płatność
-			\item Restauracja powiadamia Pracownika
-			\item Aktualizacja statusu zamówienia
+			\item 1. Pracownik płaci za lunch
+			\item 2. Pracownik oczekuje na akceptację
+			\item 3. Restauracja akceptuje płatność - 30 sekund
+			\item 4. Restauracja powiadamia Pracownika
+			\item 5. Aktualizacja statusu zamówienia
 		\end{itemize}
 	\end{Large}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Komunikacja komponentów}
 	\begin{center}
 		\Huge{SignalR}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{SignalR}
 	\begin{center}
-		\Huge{<<Wyjaśnić czym jest SignalR>>}
+		\includegraphics[height=3cm]{prosta_komunikacja2.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{SignalR}
 	\begin{center}
-		\Huge{<<mobile>>}
+		\includegraphics[height=3cm]{signalr1.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}{SignalR}
+	\begin{center}
+		\includegraphics[height=5cm]{websocket1.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Nowe aplikacje}
+	\begin{center}
+		\includegraphics[height=5cm]{phone2.png}
 	\end{center}
 \end{frame}
 
@@ -347,11 +359,19 @@
 
 \begin{frame}{}
 	\begin{center}
-		\Huge{<<wirtualne portfele>>}
+		\includegraphics[height=5cm]{wallet1.jpg}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Wirtualne portfele}
+	\begin{center}
+		\begin{tabular}{ c c }
+  			\includegraphics[height=3cm]{wallet2.png} & \includegraphics[height=1.5cm]{prepaid1.png}
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Wirtualne portfele}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Account
@@ -360,7 +380,7 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Komunikacja}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Account -> Card
@@ -376,15 +396,16 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Problemy}
 	\begin{center}
 		\Huge{Transakcyjność}
 	\end{center}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Komunikacja komponentów}
 	\begin{center}
-		\Huge{Queue}
+		\Huge{Kolejki}\\
+		\huge{(Queue)}
 	\end{center}
 \end{frame}
 
@@ -434,7 +455,7 @@
 			\item Fire-and-wait
 			\item Fire-and-forget
 			\item SignalR
-			\item Queue
+			\item Kolejki
 		\end{itemize}
 	\end{huge}
 \end{frame}
