@@ -41,13 +41,15 @@ W takich sytuacjach wyświetlaliśmy użytkownikowi informację, że płatność
 
 Jeśli chodzi o realizację przelewów, to odbywało się to w dwóch krokach:
 - jednym było wyświetlanie użytkownikowi informacji do przelewu.
-- drugim była integracja z systemem, który informował nas o tym, że pieniądze trafiły na nasze konto - w tej sytuacji nie my wołaliśmy zewnętrzny serwis, tylko zewnętrzny serwis wołał nas gdy wykrył przelew i musieliśmy mieć do tego specjalnie przygotowany endpoint.
+- drugim była integracja z systemem, który informował nas o tym, że pieniądze trafiły na nasze konto
 
-<<Rozszerzyć 'integracja z systemem zewnętrznym o kilka dodatkowych slajdów, i np. email do biznesu?>>
+W tej sytuacji nie my wołaliśmy zewnętrzny serwis, tylko zewnętrzny serwis wołał nas gdy wykrył przelew i musieliśmy mieć do tego specjalnie przygotowany endpoint.
 
 Do tej pory cała komunikacja odbywała się na zasadzie, że wysyłamy request i czekamy na odpowiedź.
 
 <<Dodatkowy slajd odnośnie problemów, aby łatwiej było to opowiedzieć>>
+
+<<Problem 'integracja z systemem zewnętrznym' - np. kwota się nie zgadza i email do biznesu, może coś jeszcze?>>
 
 Jedyny problem jaki mieliśmy, był taki, że możliwe było złożenie zamówienia wraz z utworzeniem konta.
 Aplikacje Backend i Identity miały osobne bazy. W takiej sytuacji nie da się zapewnić transakcyjności. Musieliśmy poradzić sobie z sytuacją, gdy dodawanie nowego użytkownika w Identity zakończy się sukcesem, a dodanie zamówienia w Backend się nie powiedzie.
@@ -115,6 +117,8 @@ Tu pojawiło się trochę więcej problemów.
 
 Po pierwsze musieliśmy zagwarantować, że gdy pracodawca przekazywał środki swoim pracownikom, to nie przekroczy swojego salda. Z pomocą przyszły nam 'kolejki'.
 
+Koljeki to...
+
 Gdy firma wysyłał request o przekazanie środków pracownikowi, ten request trafiał do kolejki. Requesty z kolejki były kolejno obsługiwane.
 Tak samo wyglądała sytuacja, gdy to pracownik prosił o więcej środków.
 
@@ -124,13 +128,13 @@ Płatności przy użyciu karty były wczytywane do Account raz dziennie - przyj�
 I to by było na tyle. Jeśli chodzi o dzisiejszą opowieść.
 
 Mam nadzieję, że zapamiętacie z tej prezentacji to, że:
-- Aplikacje mogą się rozbudować. Mogą pojawić się nowe funckjonalności i serwisy, dlatego warto zostawić sobie możliwości rozwoju.
-- Jest kilka rodzajów komunikacji między serwisami i każdy z nich sprawdza się w innym przypadku. 
+- Aplikacje mogą się rozbudować. Mogą pojawić się nowe funckjonalności i serwisy, dlatego warto zostawić sobie możliwości rozbudowy.
+- Jest kilka rodzajów komunikacji między komponentami i każdy z nich sprawdza się w innym przypadku. 
 
 Te rodzaje komunikacji co:
-- Fire-and-wait, czyli wysyłamy request i czekamy na odpowiedź.
-- Fire-and-forget, czyli wysyłamy request i o nim zapominamy. 
+- Komunikacja synchroniczna, czyli wysyłamy request i czekamy na odpowiedź.
+- Komuinkacja asynchroniczna, czyli wysyłamy request i o nim zapominamy. 
 - SignalR, aby powiadomić przeglądarkę, że coś się wydarzyło.
-- Queue, aby radzić sobie z asynchronicznością.
+- Kolejki, aby radzić sobie z obsługą wielu requestów na raz.
 
 Dziękuję.
