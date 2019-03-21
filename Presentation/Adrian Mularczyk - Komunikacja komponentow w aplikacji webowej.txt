@@ -17,10 +17,14 @@ I od razu pojawiły się pierwsze dodatkowe wymagania:
 - Klient zastanawiał się, że może w przyszłości zrobimy również aplikację mobilną, więc musieliśmy zrobić osobno frontend i backend, aby później można było backend wykorzystać przy aplikacji mobilnej. Stworzyliśmy API i osobny frontend.
 - Drugim wymaganiem było to, że w przyszłości mogą dojść kolejne aplikacje i najlepiej jakby użytkownikom wystarczało tylko 1 konto do zalogowania się do każdej z nich, więc potrzebowaliśmy stworzyć dodatkową sługę do Autentykacji. Zastrzeżenie było takie, że ta usługa nie będzie dostęp na zewnątrz.
 
+Czy ktoś z was wie czym jest Single Sign-On?
+
+Signle Sign-On to...
+
 Stworzyliśmy zatem 3 aplikacje:
 - Frontend
-- Backend
-- Identity
+- Backend (API)
+- Identity (Autentykacja)
 
 Tworząc te aplikacji, zauważyliśmy, że niektóre części kodu dublują się w Backend i Identity, więc stworzyliśmy bibliotekę, którą nazwaliśmy Core i tam przenieśliśmy wspólny kod. Taką bibliotekę udostępniliśmy jako wewnętrzną paczkę nugetową.
 
@@ -47,27 +51,37 @@ W tej sytuacji nie my wołaliśmy zewnętrzny serwis, tylko zewnętrzny serwis w
 
 Do tej pory cała komunikacja odbywała się na zasadzie, że wysyłamy request i czekamy na odpowiedź.
 
-<<Dodatkowy slajd odnośnie problemów, aby łatwiej było to opowiedzieć>>
+Problemy... zawsze się jakieś pojawią.
+Tutaj napotkaliśmy dwa główne problemy: jeden dotyczył transakcyjności, a drugi błędnych przelewów.
 
-<<Problem 'integracja z systemem zewnętrznym' - np. kwota się nie zgadza i email do biznesu, może coś jeszcze?>>
+Pierwszym naszym problem było to, gdy niezalogowany użytkownik dodawał zamówienie. W związku z tym wraz z nowym zamówienie był też dodawany nowy użytkownik. Aplikacje Backend i Identity miały osobne bazy. W takiej sytuacji nie da się zapewnić transakcyjności. Musieliśmy poradzić sobie z sytuacją, gdy jedna z operacji się powiedzie, a druga nie. 
+Uznaliśmy, że najpierw powinniśmy tworzyć użytkownika, a potem dodawać zamówienie. Jeśli użytkownik się nie doda, to nie ma sensu tworzyć zamówienia, bo nie będzie można go z nikim połączyć. Jeśli dodawanie nowego użytkownika zakończy się sukcesem, a dodanie zamówienia w Backend się nie powiedzie, to uznaliśmy, że nie chcemy robić żadnych rollback'ów, ponieważ użytkownik prawdopodobnie i tak będzie chciał założyć konto z danym loginem i hasłem.
+W związku z tym w takiej sytuacji zwracaliśmy informację o błędzie dodawania zamówienia, ale również zwracaliśmy 'token' dla użytkownika, aby został on zalogowany na Frontend. Zalogowany użytkownik mógł ponownie wykonać request dodania zamówienia, ale tym razem już bez dodawania nowego użytkownika w Identity.
 
-Jedyny problem jaki mieliśmy, był taki, że możliwe było złożenie zamówienia wraz z utworzeniem konta.
-Aplikacje Backend i Identity miały osobne bazy. W takiej sytuacji nie da się zapewnić transakcyjności. Musieliśmy poradzić sobie z sytuacją, gdy dodawanie nowego użytkownika w Identity zakończy się sukcesem, a dodanie zamówienia w Backend się nie powiedzie.
-Uznaliśmy, że nie chcemy robić żadnych rollback'ów, ponieważ użytkownik prawdopodobnie i tak będzie chciał założyć konto z danym loginem i hasłem. W związku z tym w takiej sytuacji zwracaliśmy informację o błędzie dodawania zamówienia, ale również zwracaliśmy 'token' dla użytkownika, aby został on zalogowany na Frontend. Zalogowany użytkownik mógł ponownie wykonać request dodania zamówienia, ale tym razem już bez dodawania nowego użytkownika w Identity.
+Jeśli chodzi o błędne przelew, to o dziwo dość częste było to, że klient zrobił przelew na złą kwotę. Ale dodali dodatkowe 0, albo dali przecinek nie w tym miejscu, albo zaokrąglili kwotę.
+Czasami zdarzało się też, że tytuł przelewu po którym identyfikowaliśmy płatność się nie zgadzał.
+Zarówno w jednym, jak i drugim przypadku nie byliśmy w stanie przypisać przelewu do płatności w naszym systemie, aby móc zmienić jej status na 'zapłacona'.
+
+Tu musieliśmy skorzystać trochę z pomocy manualnej, a dokładniej to w momencie, gdy dane się nie zgadzały, to wysyłaliśmy email do biznesu, że otrzymaliśmy taki przelew i jego dane do końca nie zgadzają się z tym co mamy w systemie.
+Dodatkowo jeśli jakaś wartość się zgadzała - tytuł albo kwota, to w tym emial dodawaliśmy informację o tym, że znaleźliśmy zamówienie w którym zgadza się jedno z tych pól. Robiliśmy to po to, aby odrobinę pomóc biznesowi z radzeniem sobie z takimi przelewami.
 
 --
 To wszystko działało, ale... klient miał kolejne plany.
+
 Wiedział on, że w obecnych czasach nie każdemu chce się nosić kupony na lunche i dobrze byłoby, jakby one były dostępne w jakiś aplikacji. Użytkownicy mieliby w niej mieć możliwość wyboru restauracji, wyboru jednego ze swoich kuponów i możliwość zapłacenia nim za lunch.
 
+Potrzebowaliśmy zatem stworzyć aplikację dla pracownika.
 To spowodowało, że wymagana okazała się również druga aplikacja - dla restauracji, aby takie płatności wirtualnymi kuponami mogła ona przyjąć.
 
-Założenie jeśli chodzi o frontend i backend obu aplikacji były takie same jak poprzednio - miały to być osobne serwisy, aby można było w przyszłości stworzyć aplikację mobilną.
+Założenie jeśli chodzi o frontend i backend obu aplikacji były takie same jak poprzednio - miały to być osobne serwisy, aby można było w przyszłości stworzyć aplikację mobilną. Autentykacja tutaj również miała być jako osobna usługa.
 
-Identity już mieliśmy, więc mogliśmy po prostu się do niego podłączyć.
-Mogliśmy też wykorzystać naszą bibliotekę Core, co znacząco przyśpieszyło prace.
-Okazało się jednak, że pojawiają się innego typu rzeczy, które dublują się pomiędzy naszą pierwszą aplikacją Backend, a nowymi aplikacjami Backend. Takim czymś było na przykład wysyłanie e-maili. W związku z tym postanowiliśmy stworzyć kolejny serwis dostępny tylko wewnątrz sieci, który zawierałby w sobie powtarzalną funkcjonalność - nazwaliśmy go Common.
+- Identity już mieliśmy, więc mogliśmy po prostu się do niego podłączyć.
+- Mogliśmy też wykorzystać naszą bibliotekę Core, co znacząco przyśpieszyło prace.
+- Okazało się jednak, że pojawiają się innego typu rzeczy, które dublują się pomiędzy naszą pierwszą aplikacją Backend, a nowymi aplikacjami Backend. Takim czymś było na przykład wysyłanie e-maili. W związku z tym postanowiliśmy stworzyć kolejny serwis dostępny tylko wewnątrz sieci, który zawierałby w sobie powtarzalną funkcjonalność - nazwaliśmy go Common.
 
-Nasza architektura wyglądała teraz następująco:
+Przed nowymi aplikacjami nasza architektura wyglądała następująco.
+
+Po dodaniu nowych aplikacji było już teog trochę więcej:
 Company:
 Frontend -> Backend -> Identity (or Common) + systemy płatności
 Employee:
@@ -75,19 +89,29 @@ Frontend -> Backend -> Identity (or Common)
 Restaurant:
 Frontend -> Backend -> Identity (or Common)
 
+Nadajmy tym aplikacjom nazwy, aby łatwiej się było odnaleźć.
+To jest część związana z firmą, więc nazwijmy ją Company.
+To jest część żwiazana z pracownikiem, więc nazwijmy ja Employee.
+A część związana z restauracją niech się nazywa Restaurant.
+Każda z tych aplikacji korzystała z Identity i Common.
+Nie wiem czy tutaj widać czy nie, ale Common nie miał swojej bazy danych - nie była mu potrzebna.
+
 Teraz jeszcze musieliśmy te aplikacje ze sobą połączyć.
-Company Backend -> Employee Backend - aby firma mogła przekazać wirtualne kupony swoim pracownikom
-Employee Backend - > Restaurant Backend - aby pracownik mógł zapłacić za swój lunch
-Restaurant Backend -> Employee Backend - aby restauracja mogła przyjąć lub odrzucić płatność za lunch
+Company -> Employee - aby firma mogła przekazać wirtualne kupony swoim pracownikom.
+Employee - > Restaurant - aby pracownik mógł zapłacić za swój lunch.
+Restaurant -> Employee - aby restauracja mogła przyjąć lub odrzucić płatność za lunch i poinformować o tym pracownika.
 
-Dodając połączenia między naszymi aplikacjami ta architektura prezentowała się następująco.
+Dodając nowe połączenia między naszymi aplikacjami ta architektura prezentowała się następująco.
 
-Doszły nowe aplikacja i pojawiły się nowe problemy.
+Nowe aplikacje, to nowe problemy.
 
-Gdy pracownik chciał zapłacić za lunch nie mieliśmy pewności, że restauracja tę płatność zaakceptuje, nie mogliśmy więc czekać w nieskończoność na odpowiedź. Komunikacja między tymi aplikacjami została zrobiona na zasadzie fire-and-forget.
+Gdy pracownik chciał zapłacić za lunch nie mieliśmy pewności, że restauracja tę płatność rozpatrzy od raz. Nie mogliśmy więc czekać w nieskończoność na odpowiedź. Komunikacja między tymi aplikacjami została zrobiona na zasadzie komunikacji asynchronicznej, czyli fire-and-forget.
 
-Czy ktoś z was wie jak działa wysyłanie żądań na zasadzie fire-and-forget?
-Chodzi tu o to...
+Czy ktoś z was wie jak działa komunikacja asynchroniczna?
+
+Komunikacja asynchroniczna to...
+
+--- Kontynuować jutro od tego miejsca ---
 
 1. Pracownik płacą za swój lunch wysyłał request do restauracji.
 2. Dostawał on odpowiedź, że oczekuje na akceptację.
