@@ -111,31 +111,41 @@ Czy ktoś z was wie jak działa komunikacja asynchroniczna?
 
 Komunikacja asynchroniczna to...
 
---- Kontynuować jutro od tego miejsca ---
-
+Wracając do naszego problemu. Scenariusz wyglądał tak:
 1. Pracownik płacą za swój lunch wysyłał request do restauracji.
 2. Dostawał on odpowiedź, że oczekuje na akceptację.
-3. Restauracja za pomocą SignalR otrzymywała powiadomienie, że ktoś chce zapłacić za swój lunch i mogła tą płatność przyjąć, lub odrzucić. Miała na to 30 sekund, po tym czasie płatność był automatycznie odrzucana.
-4. Następnie request ze statusem płatność był wysyłany do Pracownika również na zasadzie fire-and-forget.
+3. Restauracja otrzymywała powiadomienie, że ktoś chce zapłacić za swój lunch i mogła tą płatność przyjąć, lub odrzucić. Miała na to 30 sekund, po tym czasie płatność była automatycznie odrzucana.
+4. Następnie request ze statusem płatność był wysyłany do Pracownika - również na zasadzie fire-and-forget.
 5. Po otrzymaniu takiego żądania odpowiednio zaktualizowaliśmy status płatności i jeśli była to płatność odrzucona, to zwracaliśmy mu kupon.
 
+Skąd restauracja wiedziała, że pracownik zapłacił za lunch?
+Tu z pomocą przyszedł nam SignalR.
+
 Czy ktoś wie do czego służy SignalR?
-SignalR...
+
+SignalR to...
+
+A co gdy wystąpił jakiś błąd? np. padł internet?
+- przechowywaliśmy listę płatności do akceptacji dla każdej restauracji i jeśli np. restauracja miałą chwiliowy problem z internetem, to gdy go odzyskała, lista była zaczytywana z back-end
+- jeśli nastąpił dłuższy problem z internetem albo wysłanie odpowiedzi się nie powiodło, to mijało 30 sekund i płatność była automatycznie odrzucana
 
 W międzyczasie pojawiły się aplikacje mobilne dla Employee i Restaurant, więc początkowe założenia klienta o rozdzieleniu warstwy front-end i back-end się przydały.
+Mobilna aplikacja dla firm nigdy nie powstała, ale to też dlatego, że uznaliśmy, że nikt nie będzie chciał składać zamówienia na kupony na lunch dla swoich pracowników przez telefon.
 
 --
-Ale to było nie wszystko. Świat szedł do przodu, a klient nie chciał pozostać w tyle. Kolejnym krokiem była zmiana wirtualnych kuponów na wirtualne portfele.
+Ale, ale... to nie było wszystko.
 
-Klient chciał, aby można był z nich korzystać na dwa sposoby - jeden to mobilnie poprzez telefon, a drugi sposób to poprzez kartę płatności.
+Świat szedł do przodu, a klient nie chciał pozostać w tyle. Kolejnym krokiem była zmiana wirtualnych kuponów na wirtualne portfele. <<inne zdjęcie tutaj?>>
+
+Klient chciał, aby można był z nich korzystać na dwa sposoby - jeden to mobilnie poprzez telefon, a drugi sposób to poprzez kartę pre-paidowąs.
 
 Postanowiliśmy rozbudować nasz system o dwa kolejne serwisy.
 - Account - jednym z nich był serwis do zarządzania środkami na wirtualnym koncie
 - Card - drugim był serwis do integracji z systemem, który dostarczał nam karty typu prepaid.
 
-Z serwisem Card łączyła się tylko aplikacja Account w celu synchronizacji stanu konta i karty.
-Aplikacja Company łączyła się z serwisem Account, aby zasilić swoje konto, a następnie przelać środki na konta pracowników.
-Aplikacja Employee łączyła się z serwisem Account, z jednej strony aby pracownik mógł zapłacić za lunch, z drugiej, aby mógł poprosić pracodawcę o więcej środków.
+- Z serwisem Card łączyła się tylko aplikacja Account. Celem tej integracji była synchronizacja stanu konta i karty.
+- Aplikacja Company łączyła się z serwisem Account, aby zasilić swoje konto, a następnie przelać środki na konta pracowników.
+- Aplikacja Employee łączyła się z serwisem Account, z jednej strony aby pracownik mógł zapłacić za lunch, z drugiej, aby mógł poprosić pracodawcę o więcej środków.
 
 Tu pojawiło się trochę więcej problemów.
 
@@ -143,11 +153,30 @@ Po pierwsze musieliśmy zagwarantować, że gdy pracodawca przekazywał środki 
 
 Koljeki to...
 
-Gdy firma wysyłał request o przekazanie środków pracownikowi, ten request trafiał do kolejki. Requesty z kolejki były kolejno obsługiwane.
+Gdy firma wysyłał request o przekazanie środków pracownikowi, ten request trafiał do kolejki. Requesty z kolejki były kolejno obsługiwane. A następnie było to synchronizowane do Card.
 Tak samo wyglądała sytuacja, gdy to pracownik prosił o więcej środków.
 
-Płatność za lunch odbywała się w zasadzie tak samo jak wcześniej, z tą różnicą, że teraz po zaakceptowaniu płatności dodatkowo w osobnym wątku wysyłaliśmy request do Card w celu synchronizacji środków.
-Płatności przy użyciu karty były wczytywane do Account raz dziennie - przyjęliśmy założenie, że szansa na to, że ktoś będzie jadł lunch dwa razy dziennie jest niewielka.
+Operacja się nie powiodła?
+
+Coś mogło pójść nie tak w jednym z dwóch miejsc: Account albo Card
+
+Jeśli było to accoount, to:
+- elementy z kolejki nie było zabierane od razu. Gdy aplikacja pobierała element z kolejki, to był on oznaczany jako 'przetwarzany'.
+- aplikacja miała 10 sekund na przetworzenie elementu
+- jeśli jej się udało, to element był usuwany z kolejki
+- jeśli jej się nie udało, to element wracał do kolejki, czyli zmieniał się jego status z 'przetwarzany' na 'do przetworzenia'.
+
+Dla Card elementy, które nie udało się zsynchronizować trafiały do osobnego wątku, który w tle co jakiś czas próbował je zsynchronizować.
+
+Płatność za lunch odbywała się w zasadzie tak samo jak wcześniej, z tą różnicą, że teraz po zaakceptowaniu płatności synchronizowaliśmy tę płatność z aplikacją Card.
+
+Synchronizacja odbywała się tak samo jak przy dodaniu środków - jeśli się powiodło, to super, a jeśli nie, to było to synchronizowane w osobnym wątku.
+
+Płatności przy użyciu karty były wczytywane do Account raz dziennie.
+
+Było to spowodowane dwoma rzeczami:
+- kart, czyli użytkowników w systemie było dość sporo i synchronizacja tak dużej ilości elementów była czasochłonna.
+- aplikacja do obsługi kart, z którą się integrowaliśmy, miała pewne ograniczenia i nie była w stanie przetworzyć tak dużej ilości requestów na raz.
 
 I to by było na tyle. Jeśli chodzi o dzisiejszą opowieść.
 
@@ -158,7 +187,7 @@ Mam nadzieję, że zapamiętacie z tej prezentacji to, że:
 Te rodzaje komunikacji co:
 - Komunikacja synchroniczna, czyli wysyłamy request i czekamy na odpowiedź.
 - Komuinkacja asynchroniczna, czyli wysyłamy request i o nim zapominamy. 
-- SignalR, aby powiadomić przeglądarkę, że coś się wydarzyło.
-- Kolejki, aby radzić sobie z obsługą wielu requestów na raz.
+- SignalR, czyli tunel pomiędzy dwoma komponentami i może służyć do powiadomiania przeglądarki.
+- Kolejki, czyli radzenie sobie z obsługą wielu requestów na raz.
 
 Dziękuję.

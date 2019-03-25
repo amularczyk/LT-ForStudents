@@ -339,6 +339,12 @@
 	\end{Large}
 \end{frame}
 
+\begin{frame}{Problemy}
+	\begin{center}
+		\Huge{Powiadomienie restauracji o płatności}
+	\end{center}
+\end{frame}
+
 \begin{frame}{Komunikacja komponentów}
 	\begin{center}
 		\Huge{SignalR}
@@ -361,6 +367,15 @@
 	\begin{center}
 		\includegraphics[height=5cm]{websocket1.png}
 	\end{center}
+\end{frame}
+
+\begin{frame}{Powiadomienie restauracji o płatności}
+	\begin{huge}
+		\begin{itemize}[<+->]
+			\item Lista płatności
+			\item 30 sekund
+		\end{itemize}
+	\end{huge}
 \end{frame}
 
 \begin{frame}{Nowe aplikacje}
@@ -398,7 +413,7 @@
 	\end{huge}
 \end{frame}
 
-\begin{frame}{Komunikacja}
+\begin{frame}{Wirtualne portfele}
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Account -> Card
@@ -406,6 +421,12 @@
 			\item Employee -> Account
 		\end{itemize}
 	\end{huge}
+\end{frame}
+
+\begin{frame}{Wirtualne portfele}
+	\begin{center}
+		\Huge{<<zdjęcie architektury?>>}
+	\end{center}
 \end{frame}
 
 \begin{frame}{}
@@ -442,15 +463,71 @@
 	\end{huge}
 \end{frame}
 
+\begin{frame}{Problemy}
+	\begin{center}
+		\Huge{Operacja się nie powiodła?}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Operacja się nie powiodła?}
+	\begin{huge}
+		\begin{itemize}
+			\item Account
+			\item Card
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{Operacja się nie powiodła? - Account}
+	\begin{Large}
+		\begin{itemize}[<+->]
+			\item 1. Element w kolejce jest oznaczany jako `przetwarzany`
+			\item 2. Aplikacja ma 10 sekund na przetworzenie elementu
+			\begin{itemize}[<+->]
+				\item \Large{a) Jeśli się uda, element jest usuwany z kolejki}
+				\item \Large{b) Jeśli się nie uda, element wraca do kolejki}
+			\end{itemize}
+		\end{itemize}
+	\end{Large}
+\end{frame}
+
+\begin{frame}{Operacja się nie powiodła? - Card}
+	\begin{center}
+		\includegraphics[height=4cm]{cykl1.png}
+	\end{center}
+\end{frame}
+
 \begin{frame}{Wirtualne portfele}
 	\begin{huge}
-		\begin{itemize}[<+->]
+		\begin{itemize}
+			\item Employee -> Restaurant -> Account -> Card
+		\end{itemize}
+	\end{huge}
+\end{frame}
+
+\begin{frame}{Account -> Card}
+	\begin{center}
+		\includegraphics[height=4cm]{cykl1.png}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Wirtualne portfele}
+	\begin{huge}
+		\begin{itemize}
 			\item Employee -> Restaurant -> Account -> Card
 			\item Card -> Account
 		\end{itemize}
 	\end{huge}
 \end{frame}
 
+\begin{frame}{Card -> Account}
+	\begin{huge}
+		\begin{itemize}
+			\item Duża ilość kart
+			\item Ograniczenia aplikacji
+		\end{itemize}
+	\end{huge}
+\end{frame}
 
 \begin{frame}{}
 	\begin{center}
