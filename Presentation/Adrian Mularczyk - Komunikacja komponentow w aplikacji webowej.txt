@@ -166,11 +166,17 @@ Jeśli było to accoount, to:
 - jeśli jej się udało, to element był usuwany z kolejki
 - jeśli jej się nie udało, to element wracał do kolejki, czyli zmieniał się jego status z 'przetwarzany' na 'do przetworzenia'.
 
-Dla Card elementy, które nie udało się zsynchronizować trafiały do osobnego wątku, który w tle co jakiś czas próbował je zsynchronizować.
+Dla Card elementy, które nie udało się zsynchronizować trafiały do listy elementów, które serwis w osobnym wątku w tle co jakiś czas próbował zsynchronizować.
 
-Płatność za lunch odbywała się w zasadzie tak samo jak wcześniej, z tą różnicą, że teraz po zaakceptowaniu płatności synchronizowaliśmy tę płatność z aplikacją Card.
+A jak zmieniła się płatność za lunch?
 
-Synchronizacja odbywała się tak samo jak przy dodaniu środków - jeśli się powiodło, to super, a jeśli nie, to było to synchronizowane w osobnym wątku.
+Teraz równolegle wraz z requestem do Restaurant płatność była wrzucana na kolejkę. Ta płatność miała odpowiedni status, oznaczający, że jeszcze nie jest zaakceptowana. W związku z tym w tej sytuacji nie było synchronizacji pomiędzy Account i Card.
+
+Gdy restauracja odpowiedziała pracownikowi, to wtedy ta sama płatność, tylko z innym statusem była dodawana na kolejkę. Dopiero teraz następowała synchronizacja pomiędzy Account i Card.
+
+Ta synchronizacja odbywała się tak samo jak przy dodaniu środków - jeśli się powiodło, to super, a jeśli nie, to było to synchronizowane w osobnym wątku.
+
+A co się stało, gdy ktoś zapłacił za lunch kartą?
 
 Płatności przy użyciu karty były wczytywane do Account raz dziennie.
 
