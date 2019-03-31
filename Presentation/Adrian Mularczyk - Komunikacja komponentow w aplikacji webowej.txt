@@ -135,7 +135,7 @@ Mobilna aplikacja dla firm nigdy nie powstała, ale to też dlatego, że uznali�
 --
 Ale, ale... to nie było wszystko.
 
-Świat szedł do przodu, a klient nie chciał pozostać w tyle. Kolejnym krokiem była zmiana wirtualnych kuponów na wirtualne portfele. <<inne zdjęcie tutaj?>>
+Świat szedł do przodu, a klient nie chciał pozostać w tyle. Kolejnym krokiem była zmiana wirtualnych kuponów na wirtualne portfele.
 
 Klient chciał, aby można był z nich korzystać na dwa sposoby - jeden to mobilnie poprzez telefon, a drugi sposób to poprzez kartę pre-paidowąs.
 
@@ -155,6 +155,8 @@ Koljeki to...
 
 Gdy firma wysyłał request o przekazanie środków pracownikowi, ten request trafiał do kolejki. Requesty z kolejki były kolejno obsługiwane. A następnie było to synchronizowane do Card.
 Tak samo wyglądała sytuacja, gdy to pracownik prosił o więcej środków.
+
+Aktualna architektura.
 
 Operacja się nie powiodła?
 
