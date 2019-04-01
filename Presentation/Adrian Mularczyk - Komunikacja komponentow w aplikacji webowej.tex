@@ -56,7 +56,7 @@
   					\Huge{Adrian Mularczyk} \newline \newline
 					\Large{PGS Software} \newline
 					\Large{7 lat doświadczenia} \newline
-					\Large{praca od 3 rok studiów}\newline
+					\Large{praca od 3 roku studiów}\newline
 					\Large{Uniwersytet Wrocławski}
    		 \end{minipage}
 	\end{tabular}
@@ -83,7 +83,7 @@
 \begin{frame}{Aplikacja webowa}
 	\begin{huge}
 		\begin{itemize}[<+->]
-			\item Aplikacja Mobilna
+			\item Aplikacja mobilna
 			\item Single Sing-On (SSO)
 		\end{itemize}
 	\end{huge}
@@ -113,7 +113,7 @@
 
 \begin{frame}{Aplikacja webowa}
 	\begin{center}
-		\Huge{Wspólny code -> Core}
+		\Huge{Wspólny code $\Rightarrow$ Core}
 	\end{center}
 \end{frame}
 
@@ -169,7 +169,7 @@
 	\begin{huge}
 		\begin{itemize}[<+->]
 			\item Faktura
-			\item Integracja z systemem zewnętrznym
+			\item Integracja z systemem zewnętrznym (bank)
 		\end{itemize}
 	\end{huge}
 \end{frame}
@@ -201,7 +201,7 @@
 
 \begin{frame}{Problemy}
 	\begin{huge}
-		\begin{itemize}[<+->]
+		\begin{itemize}
 			\item Transakcyjność
 			\item Błędny przelew
 		\end{itemize}
@@ -216,7 +216,7 @@
 
 \begin{frame}{Błędny przelew}
 	\begin{huge}
-		\begin{itemize}[<+->]
+		\begin{itemize}
 			\item Błędna kwota
 			\item Błędny tytuł
 		\end{itemize}
@@ -243,9 +243,9 @@
 
 \begin{frame}{Nowe aplikacje}
 	\begin{huge}
-		\begin{itemize}[<+->]
-			\item Pracownik
-			\item Restauracja
+		\begin{itemize}
+			\item Dla pracownika
+			\item Dla restauracji
 		\end{itemize}
 	\end{huge}
 \end{frame}
@@ -291,9 +291,9 @@
 \begin{frame}{Komunikacja}
 	\begin{huge}
 		\begin{itemize}[<+->]
-			\item Company -> Employee
-			\item Employee -> Restaurant
-			\item Restaurant -> Employee
+			\item Company $\Rightarrow$ Employee
+			\item Employee $\Rightarrow$ Restaurant
+			\item Restaurant $\Rightarrow$ Employee
 		\end{itemize}
 	\end{huge}
 \end{frame}
@@ -306,11 +306,11 @@
 
 \begin{frame}{Nowe aplikacje}
 	\begin{center}
-		\Huge{Problemy}
+		\Huge{Nowe problemy}
 	\end{center}
 \end{frame}
 
-\begin{frame}{Problemy}
+\begin{frame}{Nowe problemy}
 	\begin{center}
 		\includegraphics[height=4cm]{pay1.png}
 	\end{center}
@@ -325,29 +325,29 @@
 
 \begin{frame}{Komunikacja asynchroniczna}
 	\begin{center}
-		\includegraphics[height=4cm]{async1.png}
+		\includegraphics[height=5cm]{async1.png}
 	\end{center}
 \end{frame}
 
 \begin{frame}{Komunikacja asynchroniczna}
 	\begin{center}
-		\includegraphics[height=6cm]{async2.png}
+		\includegraphics[height=7cm]{async2.png}
 	\end{center}
 \end{frame}
 
-\begin{frame}{Problemy}
+\begin{frame}{Nowe problemy}
 	\begin{Large}
 		\begin{itemize}[<+->]
-			\item 1. Pracownik płaci za lunch
-			\item 2. Pracownik oczekuje na akceptację
-			\item 3. Restauracja akceptuje płatność - 30 sekund
-			\item 4. Restauracja powiadamia Pracownika
-			\item 5. Aktualizacja statusu zamówienia
+			\item[] 1. Pracownik płaci za lunch
+			\item[] 2. Pracownik oczekuje na akceptację
+			\item[] 3. Restauracja akceptuje płatność - 30 sekund
+			\item[] 4. Restauracja powiadamia Pracownika
+			\item[] 5. Aktualizacja statusu płatności
 		\end{itemize}
 	\end{Large}
 \end{frame}
 
-\begin{frame}{Problemy}
+\begin{frame}{Nowe problemy}
 	\begin{center}
 		\Huge{Powiadomienie restauracji o płatności}
 	\end{center}
@@ -425,9 +425,9 @@
 \begin{frame}{Wirtualne portfele}
 	\begin{huge}
 		\begin{itemize}[<+->]
-			\item Account -> Card
-			\item Company -> Account
-			\item Employee -> Account
+			\item Account $\Rightarrow$ Card
+			\item Company $\Rightarrow$ Account
+			\item Employee $\Rightarrow$ Account
 		\end{itemize}
 	\end{huge}
 \end{frame}
@@ -440,11 +440,11 @@
 
 \begin{frame}{}
 	\begin{center}
-		\Huge{Problemy}
+		\Huge{Kolejne problemy}
 	\end{center}
 \end{frame}
 
-\begin{frame}{Problemy}
+\begin{frame}{Kolejne problemy}
 	\begin{center}
 		\Huge{Wiele requestów}
 	\end{center}
@@ -463,13 +463,20 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{Problemy}
+\begin{frame}{Kolejne problemy}
+	\begin{center}
 	\begin{huge}
-		\begin{itemize}[<+->]
-			\item Company -> \textit{Kolejka} -> Account -> Card
-			\item Employee -> \textit{Kolejka} -> Account -> Card
-		\end{itemize}
+			\item Company $\Rightarrow$ \textit{Kolejka} $\Rightarrow$ Account $\Rightarrow$ Card
 	\end{huge}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Kolejne problemy}
+	\begin{center}
+	\begin{huge}
+			\item Employee $\Rightarrow$ \textit{Kolejka} $\Rightarrow$ Account $\Rightarrow$ Card
+	\end{huge}
+	\end{center}
 \end{frame}
 
 \begin{frame}{Architektura}
@@ -478,7 +485,7 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}{Problemy}
+\begin{frame}{Kolejne problemy}
 	\begin{center}
 		\Huge{Operacja się nie powiodła?}
 	\end{center}
@@ -496,11 +503,11 @@
 \begin{frame}{Operacja się nie powiodła? - Account}
 	\begin{Large}
 		\begin{itemize}[<+->]
-			\item 1. Element w kolejce jest oznaczany jako `przetwarzany`
-			\item 2. Aplikacja ma 10 sekund na przetworzenie elementu
+			\item[] 1. Element w kolejce jest oznaczany jako `przetwarzany`
+			\item[] 2. Aplikacja ma 10 sekund na przetworzenie elementu
 			\begin{itemize}[<+->]
-				\item \Large{a) Jeśli się uda, element jest usuwany z kolejki}
-				\item \Large{b) Jeśli się nie uda, element wraca do kolejki}
+				\item[] \Large{a) Jeśli się uda, element jest usuwany z kolejki}
+				\item[] \Large{b) Jeśli się nie uda, element wraca do kolejki}
 			\end{itemize}
 		\end{itemize}
 	\end{Large}
@@ -521,19 +528,19 @@
 \begin{frame}{Płatność za lunch}
 	\begin{huge}
 		\begin{itemize}
-			\item Employee -> \textit{Kolejka} -> Account
-			\item Employee -> Restaurant
+			\item Employee $\Rightarrow$ \textit{Kolejka} $\Rightarrow$ Account
+			\item Employee $\Rightarrow$ Restaurant
 		\end{itemize}
 	\end{huge}
 \end{frame}
 
 \begin{frame}{Płatność za lunch}
 	\begin{center}
-		\Huge{Restaurant -> Employee -> \textit{Kolejka} -> Account -> Card}
+		\Huge{Restaurant $\Rightarrow$ Employee $\Rightarrow$ \textit{Kolejka} $\Rightarrow$ Account $\Rightarrow$ Card}
 	\end{center}
 \end{frame}
 
-\begin{frame}{Account -> Card}
+\begin{frame}{Account $\Rightarrow$ Card}
 	\begin{center}
 		\includegraphics[height=4cm]{cykl1.png}
 	\end{center}
@@ -547,7 +554,7 @@
 
 \begin{frame}{Płatność kartą}
 	\begin{center}
-		\Huge{Card -> Account}
+		\Huge{Card $\Rightarrow$ Account}
 	\end{center}
 \end{frame}
 
